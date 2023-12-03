@@ -1,8 +1,7 @@
 import java.io.File
 
 val digitWords: List<String> = listOf("one","two","three","four","five","six","seven","eight","nine")
-
-val digitWordsReplacements: List<Pair<String, String>> = listOf(
+val digitWordsReplacements: Map<String, String> = mapOf(
   Pair("one", "1"),
   Pair("two", "2"),
   Pair("three", "3"),
@@ -13,7 +12,7 @@ val digitWordsReplacements: List<Pair<String, String>> = listOf(
   Pair("eight", "8"),
   Pair("nine", "9")
 )
-var result: Int = 0;
+var result: Int = 0
 
 File("./day1.txt").forEachLine {
   var line = it
@@ -23,13 +22,13 @@ File("./day1.txt").forEachLine {
   if (firstDigitWord != null) {
     line = line.replaceFirst(
       firstDigitWord,
-      digitWordsReplacements.first { pair -> pair.first == firstDigitWord }.second,
+      digitWordsReplacements.getValue(firstDigitWord) + firstDigitWord.last(),
       true
     )
     if (lastDigitWord != null) {
       line = line.replace(
         lastDigitWord,
-        digitWordsReplacements.first { pair -> pair.first == lastDigitWord }.second,
+        digitWordsReplacements.getValue(lastDigitWord),
         true
       )
     }
@@ -39,11 +38,7 @@ File("./day1.txt").forEachLine {
   if (line.isNotEmpty()) {
     val first = line.first()
     val last = line.last()
-    result += if (last.isDefined()) {
-      "$first$last".toInt()
-    } else {
-      "$first$first".toInt()
-    }
+    result += "$first$last".toInt()
   }
 }
 
